@@ -26,7 +26,6 @@ export default class OpenAiController {
         
         this.instance = new OpenAIApi(this.configuration)
 
-        
 
     }
 
