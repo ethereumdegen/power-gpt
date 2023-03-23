@@ -46,7 +46,7 @@ async function init(){
     console.log('Welcome to Power-GPT.')
 
 
-    lineReader.question(`What you like to ask?`, input => {
+    lineReader.question(`What you like to ask? `, input => {
       
         handleUserInput(input)
 
