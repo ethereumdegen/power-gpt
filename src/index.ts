@@ -12,15 +12,22 @@ if(!API_KEY) throw new Error("Missing OPENAI_API_KEY from env")
 
 let aiController = new OpenAiController(API_KEY)
   
-  
+ 
+//import cliSpinners from 'cli-spinners'
+import ora from 'ora';
+
+
 const running = true ; 
 
+let mode = "text"
+
+const modeColor = chalk.green
 
 //@ts-ignore
 import readline from 'readline-promise';
  
 
-const lineReader = readline.createInterface({
+let lineReader = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
     terminal: true
@@ -31,7 +38,7 @@ async function handleUserInput(input:string){
 
     let response:any; 
     
-    if(input.includes('image')){
+    if(mode == 'image'){
 
 
         response = await aiController.generateImage({
@@ -85,20 +92,71 @@ function outputFormatted(rawResponse:any){
     console.log(JSON.stringify((rawResponse)))
 }
 
+
+function setupTerminal(){
+
+    readline.emitKeypressEvents(process.stdin);
+
+    if (process.stdin.isTTY)
+        process.stdin.setRawMode(true);
+
+    process.stdin.on('keypress', (chunk, key) => {
+        if(key && key.name == 'tab'){
+            incrementMode(  )
+        }
+    
+    });
+
+
+}
+
+function incrementMode( ){
+
+    switch(mode){
+
+        case 'text': mode = 'image';break;
+        case 'image': mode = 'text';break;
+        default: mode = 'text';break;
+    }
+
+    console.log(  modeColor(`mode switched to: ${mode}  \n`))
+
+
+}
+
 async function init(){
 
+    const spinner = ora('Loading unicorns')
 
-    console.log( 'Welcome to Power-GPT. \r\n \r\n' )
+    console.log( 'Welcome to Power-GPT. \n \n' )
+
+
+    setupTerminal()
   
 
 
     while (running){
 
-        const question = chalk.blue(`What would you like to ask? \r\n ` )
+        const question = chalk.blue(`What would you like to ask? ` )
+        let modeLabel = modeColor(` mode: ${mode}  \n `)
 
-        const userInput = await lineReader.questionAsync(question) 
-    
+        const userInput = await lineReader.questionAsync(question.concat(" ").concat(modeLabel)) 
+
+
+        spinner.start(); 
+       
+
         let response = await handleUserInput(userInput)
+
+        spinner.stopAndPersist( )
+
+        lineReader.close()
+         
+        lineReader = readline.createInterface({
+            input: process.stdin,
+            output: process.stdout,
+            terminal: true
+          });
 
         if(response.success){
             const output = response.data 
