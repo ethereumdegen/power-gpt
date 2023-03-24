@@ -1,7 +1,7 @@
 
  
 
-    import { Configuration, OpenAIApi } from 'openai'
+    import { Configuration, CreateImageRequestSizeEnum, OpenAIApi } from 'openai'
 
 
 
@@ -9,6 +9,13 @@ export interface QueryInput {
     prompt:string,
     model?:string,  
     max_tokens?: number
+
+}
+
+export interface ImageInput {
+    prompt:string,
+    size?:CreateImageRequestSizeEnum
+   
 
 }
 
@@ -44,17 +51,39 @@ export default class OpenAiController {
         });
    
 
-        if(response.status == 200){
-            return {success:true, data: response.data}
-        }else{
-            return {success:false, error: response.statusText}
-        }
+            if(response.status == 200){ 
+                return {success:true, data: response.data}
+            }else{
+                return {success:false, error: response.statusText}
+            }
         }catch(e:any){
             return {success:false, error: e.toString()}
         }
        
     
 
+    }
+
+
+    async generateImage(input:ImageInput){
+        try{
+
+        const response = await this.instance.createImage ({
+            prompt:  input.prompt,
+            n:1,
+            size: input.size? input.size :  "512x512"
+         } )
+
+         if(response.status == 200){
+            return {success:true, data: response.data}
+        }else{
+            return {success:false, error: response.statusText}
+        }
+
+        }catch(e:any){
+            return {success:false, error: e.toString()}
+        }
+       
     }
   
     

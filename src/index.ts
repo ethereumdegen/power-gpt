@@ -18,8 +18,7 @@ const running = true ;
 
 //@ts-ignore
 import readline from 'readline-promise';
-
-//import readline from 'readline'
+ 
 
 const lineReader = readline.createInterface({
     input: process.stdin,
@@ -30,21 +29,49 @@ const lineReader = readline.createInterface({
 
 async function handleUserInput(input:string){
 
-    let response = await aiController.query({
-        prompt: input
-
-    })
-
-    if(response.success){
-
-        const result:any = response.data 
+    let response:any; 
     
-        const choices = result.choices 
-    
-        return {success:true, data: choices}
+    if(input.includes('image')){
+
+
+        response = await aiController.generateImage({
+            prompt: input
+        })
+
+        if(response && response.success){
+
+            const result:any = response.data 
+         
+        
+            return {success:true, data: result}
+        }else{
+
+            return {success:false, error: response.error}
+        }
+
+
+
+    }else{
+        response = await aiController.query({
+            prompt: input
+        }) 
+
+
+        if(response && response.success){
+
+            const result:any = response.data 
+        
+            const choice = result.choices[0]
+        
+            return {success:true, data: choice}
+        }else{
+
+            return {success:false, error: response.error}
+        }
+
+
     }
-
-    return {success:false, error: response.error}
+   
 
 }
 
@@ -61,8 +88,9 @@ function outputFormatted(rawResponse:any){
 async function init(){
 
 
-    console.log( 'Welcome to Power-GPT.' )
- 
+    console.log( 'Welcome to Power-GPT. \r\n \r\n' )
+  
+
 
     while (running){
 
@@ -73,7 +101,7 @@ async function init(){
         let response = await handleUserInput(userInput)
 
         if(response.success){
-            const output = response.data[0]
+            const output = response.data 
             outputFormatted( output )
         }else{
             console.log(chalk.red(response.error))
