@@ -1,13 +1,15 @@
 import OpenAiController from "./openapi-controller"
+
+ 
+
+
 require('dotenv').config();
 
 
 const API_KEY = process.env.OPENAI_API_KEY!
 
 let aiController = new OpenAiController(API_KEY)
-
-
-
+ 
 //import { Command } from "commander"; // add this line
  
   
@@ -45,10 +47,10 @@ async function init(){
 
     console.log('Welcome to Power-GPT.')
 
-
+    console.log( `What would you like to ask? \r\n `)
     lineReader.question(
         
-        `What you like to ask? \r\n `, input => {
+         '', input => {
       
         handleUserInput(input)
 
