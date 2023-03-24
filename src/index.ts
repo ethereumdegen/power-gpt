@@ -37,9 +37,7 @@ async function handleUserInput(input:string){
 
     if(response.success){
 
-        const result:any = response.data
-        
-
+        const result:any = response.data 
     
         const choices = result.choices 
     
@@ -71,9 +69,7 @@ async function init(){
         const question = chalk.blue(`What would you like to ask? \r\n ` )
 
         const userInput = await lineReader.questionAsync(question) 
-
-     //   console.log( chalk.blue(`What would you like to ask? \r\n ` ) )
-      
+    
         let response = await handleUserInput(userInput)
 
         if(response.success){
@@ -82,15 +78,11 @@ async function init(){
         }else{
             console.log(chalk.red(response.error))
         }
-
-    
-     
+ 
 
         
     }
-   
-
-    //commander interface here 
+    
 
 }
 
