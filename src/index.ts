@@ -1,7 +1,7 @@
 import OpenAiController from "./openapi-controller"
 
  
-
+import chalk from 'chalk'
 
 require('dotenv').config();
 
@@ -45,9 +45,10 @@ async function handleUserInput(input:string){
 async function init(){
 
 
-    console.log('Welcome to Power-GPT.')
+    console.log( 'Welcome to Power-GPT.' )
+ 
 
-    console.log( `What would you like to ask? \r\n `)
+    console.log( chalk.blue(`What would you like to ask? \r\n ` ) )
     lineReader.question(
         
          '', input => {
