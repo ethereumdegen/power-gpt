@@ -8,10 +8,10 @@ require('dotenv').config();
 
 const API_KEY = process.env.OPENAI_API_KEY!
 
+if(!API_KEY) throw new Error("Missing OPENAI_API_KEY from env")
+
 let aiController = new OpenAiController(API_KEY)
- 
-//import { Command } from "commander"; // add this line
- 
+  
   
 const running = true ; 
 
@@ -53,7 +53,7 @@ async function handleUserInput(input:string){
 function outputFormatted(rawResponse:any){
 
     if(rawResponse.text){
-        console.log(rawResponse.text)
+        console.log(`> ${rawResponse.text}`)
         return
     }
 
@@ -77,7 +77,8 @@ async function init(){
         let response = await handleUserInput(userInput)
 
         if(response.success){
-            outputFormatted(response.data)
+            const output = response.data[0]
+            outputFormatted( output )
         }else{
             console.log(chalk.red(response.error))
         }
