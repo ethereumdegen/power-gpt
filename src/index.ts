@@ -13,11 +13,18 @@ let aiController = new OpenAiController(API_KEY)
 //import { Command } from "commander"; // add this line
  
   
-import readline from 'readline'
+const running = true ; 
+
+
+//@ts-ignore
+import readline from 'readline-promise';
+
+//import readline from 'readline'
 
 const lineReader = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
+    terminal: true
   });
 
 
@@ -35,11 +42,22 @@ async function handleUserInput(input:string){
 
     
         const choices = result.choices 
-        console.log({result})
-        console.log(JSON.stringify(choices))
-
+    
+        return {success:true, data: choices}
     }
 
+    return {success:false, error: response.error}
+
+}
+
+function outputFormatted(rawResponse:any){
+
+    if(rawResponse.text){
+        console.log(rawResponse.text)
+        return
+    }
+
+    console.log(JSON.stringify((rawResponse)))
 }
 
 async function init(){
@@ -48,16 +66,28 @@ async function init(){
     console.log( 'Welcome to Power-GPT.' )
  
 
-    console.log( chalk.blue(`What would you like to ask? \r\n ` ) )
-    lineReader.question(
-        
-         '', input => {
+    while (running){
+
+        const question = chalk.blue(`What would you like to ask? \r\n ` )
+
+        const userInput = await lineReader.questionAsync(question) 
+
+     //   console.log( chalk.blue(`What would you like to ask? \r\n ` ) )
       
-        handleUserInput(input)
+        let response = await handleUserInput(userInput)
 
-        lineReader.close();
-    });
+        if(response.success){
+            outputFormatted(response.data)
+        }else{
+            console.log(chalk.red(response.error))
+        }
 
+    
+     
+
+        
+    }
+   
 
     //commander interface here 
 

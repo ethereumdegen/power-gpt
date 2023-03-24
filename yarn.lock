@@ -863,6 +863,11 @@ readdirp@~3.6.0:
   dependencies:
     picomatch "^2.2.1"
 
+readline-promise@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/readline-promise/-/readline-promise-1.0.5.tgz#26ccac73b9124d5c07f7e8398fe5d7fb1e6b198b"
+  integrity sha512-rlqCVq6aaHxJCOJ0CzDHUi9Kj9JPBpnGFkdl6JefVjy0O/dGuBP+CovaHfaftUwElUlIeUs0E/a3Z5y45vRTVA==
+
 require-directory@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/require-directory/-/require-directory-2.1.1.tgz#8c64ad5fd30dab1c976e2344ffe7f792a6a6df42"

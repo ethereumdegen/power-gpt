@@ -1,5 +1,5 @@
 Arguments: 
-  /home/andy/.nvm/versions/node/v16.14.2/bin/node /home/andy/.nvm/versions/node/v16.14.2/bin/yarn start
+  /home/andy/.nvm/versions/node/v16.14.2/bin/node /home/andy/.nvm/versions/node/v16.14.2/bin/yarn add --dev @types/readline-promise
 
 PATH: 
   /home/andy/.local/bin:/home/andy/.nvm/versions/node/v16.14.2/bin:/home/andy/.cargo/bin:/home/andy/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/andy/.foundry/bin:/usr/bin/shaderc/lib
@@ -14,30 +14,26 @@ Platform:
   linux x64
 
 Trace: 
-  SyntaxError: /home/andy/ai/power-gpt/package.json: Unexpected token } in JSON at position 226
-      at JSON.parse (<anonymous>)
-      at /home/andy/.nvm/versions/node/v16.14.2/lib/node_modules/yarn/lib/cli.js:1629:59
-      at Generator.next (<anonymous>)
-      at step (/home/andy/.nvm/versions/node/v16.14.2/lib/node_modules/yarn/lib/cli.js:310:30)
-      at /home/andy/.nvm/versions/node/v16.14.2/lib/node_modules/yarn/lib/cli.js:321:13
+  Error: https://registry.yarnpkg.com/@types%2freadline-promise: Not found
+      at Request.params.callback [as _callback] (/home/andy/.nvm/versions/node/v16.14.2/lib/node_modules/yarn/lib/cli.js:66145:18)
+      at Request.self.callback (/home/andy/.nvm/versions/node/v16.14.2/lib/node_modules/yarn/lib/cli.js:140890:22)
+      at Request.emit (node:events:526:28)
+      at Request.<anonymous> (/home/andy/.nvm/versions/node/v16.14.2/lib/node_modules/yarn/lib/cli.js:141862:10)
+      at Request.emit (node:events:526:28)
+      at IncomingMessage.<anonymous> (/home/andy/.nvm/versions/node/v16.14.2/lib/node_modules/yarn/lib/cli.js:141784:12)
+      at Object.onceWrapper (node:events:645:28)
+      at IncomingMessage.emit (node:events:538:35)
+      at endReadableNT (node:internal/streams/readable:1345:12)
+      at processTicksAndRejections (node:internal/process/task_queues:83:21)
 
 npm manifest: 
   {
     "name": "power-gpt",
     "version": "1.0.0",
     "description": "",
-    "type": "module",
-    "module":"commonjs",
-    "main": "dist/index.js",
-  
-    
-      "compilerOptions": {     
-        "module": "es6",
-        "target": "es5",    
-      },
-    
+    "main": "index.js",
     "scripts": {
-      "start": "tsc && node dist/index.js",
+      "start": "npx ts-node src/index.ts",
       "test": "NODE_ENV=test TS_NODE_PROJECT=\"tsconfig.testing.json\" mocha --require ts-node/register 'test/**/*.ts' --timeout 25000",
       "build": "tsc"
     },
@@ -45,10 +41,11 @@ npm manifest:
     "license": "MIT",
     "dependencies": {
       "boxen": "^7.0.2",
-      "chalk": "^5.2.0",
+      "chalk": "^4",
       "commander": "^10.0.0",
       "dotenv": "^16.0.3",
       "openai": "^3.2.1",
+      "readline-promise": "^1.0.5",
       "ts-node": "^10.7.0",
       "typescript": "^4.6.3",
       "winston": "^3.8.2"
@@ -371,7 +368,7 @@ Lockfile:
       pathval "^1.1.1"
       type-detect "^4.0.5"
   
-  chalk@^4.1.0:
+  chalk@^4, chalk@^4.1.0:
     version "4.1.2"
     resolved "https://registry.yarnpkg.com/chalk/-/chalk-4.1.2.tgz#aac4e2b7734a740867aeb16bf02aad556a1e7a01"
     integrity sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==
@@ -379,7 +376,7 @@ Lockfile:
       ansi-styles "^4.1.0"
       supports-color "^7.1.0"
   
-  chalk@^5.0.1, chalk@^5.2.0:
+  chalk@^5.0.1:
     version "5.2.0"
     resolved "https://registry.yarnpkg.com/chalk/-/chalk-5.2.0.tgz#249623b7d66869c673699fb66d65723e54dfcfb3"
     integrity sha512-ree3Gqw/nazQAPuJJEy+avdl7QfZMcUvmHIKgEZkGL+xOBzRvup5Hxo6LHuMceSxOabuJLJm5Yp/92R9eMmMvA==
@@ -932,6 +929,11 @@ Lockfile:
     integrity sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==
     dependencies:
       picomatch "^2.2.1"
+  
+  readline-promise@^1.0.5:
+    version "1.0.5"
+    resolved "https://registry.yarnpkg.com/readline-promise/-/readline-promise-1.0.5.tgz#26ccac73b9124d5c07f7e8398fe5d7fb1e6b198b"
+    integrity sha512-rlqCVq6aaHxJCOJ0CzDHUi9Kj9JPBpnGFkdl6JefVjy0O/dGuBP+CovaHfaftUwElUlIeUs0E/a3Z5y45vRTVA==
   
   require-directory@^2.1.1:
     version "2.1.1"
