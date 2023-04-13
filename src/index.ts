@@ -1,15 +1,13 @@
 import OpenAiController from "./openapi-controller"
-
+import {getOpenAIApiKey} from "../lib/api-key-helper"
  
 import chalk from 'chalk'
 
 require('dotenv').config();
 
 
-const API_KEY = process.env.OPENAI_API_KEY!
-
-if(!API_KEY) throw new Error("Missing OPENAI_API_KEY from env")
-
+const API_KEY = getOpenAIApiKey()
+ 
 let aiController = new OpenAiController(API_KEY)
 
 const AI_MODEL = process.env.AI_MODEL;
@@ -51,9 +49,11 @@ async function handleUserInput(input:string){
         if(response && response.success){
 
             const result:any = response.data 
+
+            let imageUrl = result?.data?.url ? result.data.url : result 
          
         
-            return {success:true, data: result}
+            return {success:true, data: imageUrl}
         }else{
 
             return {success:false, error: response.error}
@@ -73,8 +73,11 @@ async function handleUserInput(input:string){
             const result:any = response.data 
         
             const choice = result.choices[0]
+
+
+            const message = choice.message.content
         
-            return {success:true, data: choice}
+            return {success:true, data: message}
         }else{
 
             return {success:false, error: response.error}

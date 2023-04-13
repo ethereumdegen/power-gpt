@@ -1,9 +1,10 @@
 
  
 
-    import { Configuration, CreateImageRequestSizeEnum, OpenAIApi } from 'openai'
+import {  CreateImageRequestSizeEnum } from 'openai'
 
 
+import { createCompletion, createChatCompletion, createImage } from "../lib/openai-lib"
 
 export interface QueryInput {
     prompt:string,
@@ -19,31 +20,21 @@ export interface ImageInput {
 
 }
 
-const DEFAULT_MODEL = "text-davinci-003" //"gpt-3.5-turbo"
+const DEFAULT_MODEL = "gpt-3.5-turbo" //"gpt-3.5-turbo"
 
 export default class OpenAiController {
 
-    configuration:Configuration
-    instance:OpenAIApi
-   
+    
 
-    constructor(apiKey: string){
-
-
-
-        this.configuration = new Configuration({
-            apiKey,
-            });
-        
-        this.instance = new OpenAIApi(this.configuration)
-
+    constructor(public apikey:string ){
+ 
 
     }
 
     async query(input:QueryInput){
 
         try{
-        const response = await this.instance.createCompletion({
+        const response = await createChatCompletion({
                 model: input.model ? input.model : DEFAULT_MODEL , //"gpt-3.5-turbo",
                 prompt: input.prompt,
                 temperature: 0,
@@ -51,10 +42,11 @@ export default class OpenAiController {
         });
    
 
-            if(response.status == 200){ 
+            if(response && response.status == 200){ 
                 return {success:true, data: response.data}
             }else{
-                return {success:false, error: response.statusText}
+                console.error(JSON.stringify(response))
+                return {success:false, error: response?.statusText}
             }
         }catch(e:any){
             return {success:false, error: e.toString()}
@@ -68,16 +60,16 @@ export default class OpenAiController {
     async generateImage(input:ImageInput){
         try{
 
-        const response = await this.instance.createImage ({
+        const response = await  createImage ({
             prompt:  input.prompt,
             n:1,
             size: input.size? input.size :  "512x512"
          } )
 
-         if(response.status == 200){
+         if(response && response.status == 200){
             return {success:true, data: response.data}
         }else{
-            return {success:false, error: response.statusText}
+            return {success:false, error: response?.statusText}
         }
 
         }catch(e:any){
