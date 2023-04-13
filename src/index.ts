@@ -11,6 +11,9 @@ const API_KEY = process.env.OPENAI_API_KEY!
 if(!API_KEY) throw new Error("Missing OPENAI_API_KEY from env")
 
 let aiController = new OpenAiController(API_KEY)
+
+const AI_MODEL = process.env.AI_MODEL;
+let aiModel:string = AI_MODEL || 'text-davinci-003'
   
  
 //import cliSpinners from 'cli-spinners'
@@ -60,7 +63,8 @@ async function handleUserInput(input:string){
 
     }else{
         response = await aiController.query({
-            prompt: input
+            prompt: input,
+            model: aiModel
         }) 
 
 
