@@ -11,7 +11,7 @@ const API_KEY = getOpenAIApiKey()
 let aiController = new OpenAiController(API_KEY)
 
 const AI_MODEL = process.env.AI_MODEL;
-let aiModel:string = AI_MODEL || 'text-davinci-003'
+let aiModel:string = AI_MODEL || 'gpt-3.5-turbo'
   
   
 import ora from 'ora';
