@@ -13,8 +13,7 @@ let aiController = new OpenAiController(API_KEY)
 const AI_MODEL = process.env.AI_MODEL;
 let aiModel:string = AI_MODEL || 'text-davinci-003'
   
- 
-//import cliSpinners from 'cli-spinners'
+  
 import ora from 'ora';
 
 
